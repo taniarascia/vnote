@@ -15,7 +15,7 @@ function StyledTooltipButton({
   content,
   children,
   ...props
-}: StyledTooltipButtonProps) {
+}: Readonly<StyledTooltipButtonProps>) {
   const id = React.useRef(uuid())
   const { darkTheme } = useSelector(getSettings)
 
