@@ -54,7 +54,7 @@ export const NoteMenuBar = () => {
   // ===========================================================================
 
   const [uuidCopiedText, setUuidCopiedText] = useState<string>('')
-  const [isToggled, togglePreviewIcon] = useState<boolean>(false)
+  const [isToggled, setIsToggled] = useState<boolean>(false)
 
   // ===========================================================================
   // Hooks
@@ -100,7 +100,7 @@ export const NoteMenuBar = () => {
     _updateCodeMirrorOption('theme', darkTheme ? 'base16-light' : 'new-moon')
   }
   const togglePreviewHandler = () => {
-    togglePreviewIcon(!isToggled)
+    setIsToggled(!isToggled)
     _togglePreviewMarkdown()
   }
 

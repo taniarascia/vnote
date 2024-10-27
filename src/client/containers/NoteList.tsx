@@ -243,7 +243,7 @@ export const NoteList: React.FC = () => {
               </div>
               {(activeFolder === Folder.ALL || activeFolder === Folder.FAVORITES) && (
                 <div className="note-category">
-                  {!!noteCategory ? (
+                  {noteCategory ? (
                     <>
                       <FolderIcon size={12} className="context-menu-action" />
                       {noteCategory?.name}
