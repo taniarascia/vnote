@@ -1,0 +1,10 @@
+.tooltip-container {
+  .tooltip {
+    color: white;
+    background-color: $app-sidebar-color;
+  }
+
+  & > button {
+    height: 100%;
+  }
+}

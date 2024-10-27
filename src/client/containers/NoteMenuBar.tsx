@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import {
-  Eye,
-  Edit,
-  Star,
-  Trash2,
-  Download,
-  RefreshCw,
-  Loader,
-  Settings,
-  Sun,
-  Moon,
   Clipboard as ClipboardCmp,
+  Download,
+  Edit,
+  Eye,
+  Loader,
+  Moon,
+  RefreshCw,
+  Settings,
+  Star,
+  Sun,
+  Trash2,
 } from 'react-feather'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { TestID } from '@resources/TestID'
 import { LastSyncedNotification } from '@/components/LastSyncedNotification'
-import { NoteItem, CategoryItem } from '@/types'
+import { StyledTooltipButton } from '@/components/StyledTooltipButton'
+import { getCategories, getNotes, getSettings, getSync } from '@/selectors'
+import { toggleFavoriteNotes, toggleTrashNotes } from '@/slices/note'
 import {
-  toggleSettingsModal,
-  togglePreviewMarkdown,
   toggleDarkTheme,
+  togglePreviewMarkdown,
+  toggleSettingsModal,
   updateCodeMirrorOption,
 } from '@/slices/settings'
-import { toggleFavoriteNotes, toggleTrashNotes } from '@/slices/note'
-import { getCategories, getNotes, getSync, getSettings } from '@/selectors'
-import { downloadNotes, isDraftNote, getShortUuid, copyToClipboard } from '@/utils/helpers'
 import { sync } from '@/slices/sync'
+import { CategoryItem, NoteItem } from '@/types'
+import { Shortcuts } from '@/utils/enums'
+import { copyToClipboard, downloadNotes, getShortUuid, isDraftNote } from '@/utils/helpers'
+import { TestID } from '@resources/TestID'
 
 export const NoteMenuBar = () => {
   // ===========================================================================
@@ -106,10 +108,11 @@ export const NoteMenuBar = () => {
     <section className="note-menu-bar">
       {activeNote && !isDraftNote(activeNote) ? (
         <nav>
-          <button
+          <StyledTooltipButton
             className="note-menu-bar-button"
             onClick={togglePreviewHandler}
             data-testid={TestID.PREVIEW_MODE}
+            content={isToggled ? 'Edit note' : 'Preview note'}
           >
             {isToggled ? (
               <Edit aria-hidden="true" size={18} />
@@ -117,24 +120,40 @@ export const NoteMenuBar = () => {
               <Eye aria-hidden="true" size={18} />
             )}
             <span className="sr-only">{isToggled ? 'Edit note' : 'Preview note'}</span>
-          </button>
+          </StyledTooltipButton>
           {!activeNote.scratchpad && (
             <>
-              <button className="note-menu-bar-button" onClick={favoriteNoteHandler}>
+              <StyledTooltipButton
+                content="Add note to favorites"
+                className="note-menu-bar-button"
+                onClick={favoriteNoteHandler}
+              >
                 <Star aria-hidden="true" size={18} />
                 <span className="sr-only">Add note to favorites</span>
-              </button>
-              <button className="note-menu-bar-button trash" onClick={trashNoteHandler}>
+              </StyledTooltipButton>
+
+              <StyledTooltipButton
+                content="Trash"
+                className="note-menu-bar-button trash"
+                onClick={trashNoteHandler}
+              >
                 <Trash2 aria-hidden="true" size={18} />
                 <span className="sr-only">Delete note</span>
-              </button>
+              </StyledTooltipButton>
             </>
           )}
-          <button className="note-menu-bar-button">
-            <Download aria-hidden="true" size={18} onClick={downloadNotesHandler} />
+
+          <StyledTooltipButton
+            onClick={downloadNotesHandler}
+            content="Add note to favorites"
+            className="note-menu-bar-button"
+          >
+            <Download aria-hidden="true" size={18} />
             <span className="sr-only">Download note</span>
-          </button>
-          <button
+          </StyledTooltipButton>
+
+          <StyledTooltipButton
+            content="Copy note"
             className="note-menu-bar-button uuid"
             onClick={() => {
               copyToClipboard(`{{${shortNoteUuid}}}`)
@@ -145,14 +164,15 @@ export const NoteMenuBar = () => {
             {copyNoteIcon}
             {uuidCopiedText && <span className="uuid-copied-text">{uuidCopiedText}</span>}
             <span className="sr-only">Copy note</span>
-          </button>
+          </StyledTooltipButton>
         </nav>
       ) : (
         <div />
       )}
       <nav>
         <LastSyncedNotification datetime={lastSynced} pending={pendingSync} syncing={syncing} />
-        <button
+        <StyledTooltipButton
+          content={`Sync notes (${Shortcuts.SYNC_NOTES})`}
           className="note-menu-bar-button"
           onClick={syncNotesHandler}
           data-testid={TestID.TOPBAR_ACTION_SYNC_NOTES}
@@ -163,16 +183,26 @@ export const NoteMenuBar = () => {
             <RefreshCw aria-hidden="true" size={18} />
           )}
           <span className="sr-only">Sync notes</span>
-        </button>
-        <button className="note-menu-bar-button" onClick={toggleDarkThemeHandler}>
+        </StyledTooltipButton>
+        <StyledTooltipButton
+          className="note-menu-bar-button"
+          onClick={toggleDarkThemeHandler}
+          content={darkTheme ? 'Toggle light theme' : 'Toggle dark theme'}
+          place="top-end"
+        >
           {darkTheme ? <Sun aria-hidden="true" size={18} /> : <Moon aria-hidden="true" size={18} />}
           <span className="sr-only">Themes</span>
-        </button>
+        </StyledTooltipButton>
 
-        <button className="note-menu-bar-button" onClick={settingsHandler}>
+        <StyledTooltipButton
+          className="note-menu-bar-button"
+          onClick={settingsHandler}
+          place="top-end"
+          content="Settings"
+        >
           <Settings aria-hidden="true" size={18} />
           <span className="sr-only">Settings</span>
-        </button>
+        </StyledTooltipButton>
       </nav>
     </section>
   )

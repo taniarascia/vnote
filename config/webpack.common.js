@@ -19,7 +19,7 @@ if (getEnvFromDotEnvFile.error) {
   envKeys = {
     'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
     'process.env.DEMO': JSON.stringify(process.env.DEMO),
-    'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   }
 } else {
   envKeys = {

@@ -328,4 +328,9 @@ $dark-editor: #3f3f3f;
   .slider {
     background-color: darken($dark-sidebar, 10%);
   }
+
+  .tooltip-container .tooltip {
+    background-color: $note-sidebar-color;
+    color: black;
+  }
 }
