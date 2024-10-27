@@ -195,7 +195,6 @@ export const NoteList: React.FC = () => {
           return (
             <div
               data-testid={TestID.NOTE_LIST_ITEM + index}
-              role="button"
               className={
                 selectedNotesIds.includes(note.id) ? 'note-list-each selected' : 'note-list-each'
               }
