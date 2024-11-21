@@ -57,7 +57,7 @@ GitHub authentication.
 
 ### Added
 
-- Log in/log out functionality implemented using GitHub OAuth
+- Log in/log out logic implemented using GitHub OAuth
 
 ### Changed
 
@@ -83,6 +83,6 @@ Initial release.
 - Removed Netlify badge from README
 - Removed Create React App and replaced with custom Webpack setup
 
-### Removed
+### Removed 
 
 - Removed Service Worker due to the application no longer being fully client side
