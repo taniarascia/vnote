@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+NOTE: All notable changes to this project will be documented in this file.
 
 ## v0.7.2 10/27/2020
 
