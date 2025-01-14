@@ -24,8 +24,10 @@ import { loadCategories, swapCategories } from '@/slices/category'
 import { sync } from '@/slices/sync'
 import { NoteItem, CategoryItem } from '@/types'
 import { loadNotes } from '@/slices/note'
-import { loadSettings } from '@/slices/settings'
+import { loadSettings, toggleDarkTheme } from '@/slices/settings'
 import { getSettings, getNotes, getCategories, getSync } from '@/selectors'
+
+import '@/styles/dark-mode.css'
 
 dayjs.extend(localizedFormat)
 dayjs.locale(getDayJsLocale(navigator.language))
@@ -55,6 +57,9 @@ export const TakeNoteApp: React.FC = () => {
     dispatch(swapCategories({ categoryId, destinationId }))
   const _sync = (notes: NoteItem[], categories: CategoryItem[]) =>
     dispatch(sync({ notes, categories }))
+  const handleToggleDarkMode = () => {
+    dispatch(toggleDarkTheme())
+  }
 
   // ===========================================================================
   // Handlers
@@ -89,28 +94,33 @@ export const TakeNoteApp: React.FC = () => {
   useBeforeUnload((event: BeforeUnloadEvent) => (pendingSync ? event.preventDefault() : null))
 
   return (
-    <HelmetProvider>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{getWebsiteTitle(activeFolder, activeCategory)}</title>
-        <link rel="canonical" href="https://takenote.dev" />
-      </Helmet>
+    <div className={darkTheme ? 'dark-mode' : ''}>
+      <button onClick={handleToggleDarkMode}>
+        {darkTheme ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+      </button>
+      <HelmetProvider>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{getWebsiteTitle(activeFolder, activeCategory)}</title>
+          <link rel="canonical" href="https://takenote.dev" />
+        </Helmet>
 
-      <TempStateProvider>
-        <div className={determineAppClass(darkTheme, sidebarVisible, activeFolder)}>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <SplitPane split="vertical" minSize={150} maxSize={500} defaultSize={240}>
-              <AppSidebar />
-              <SplitPane split="vertical" {...getNoteBarConf(activeFolder)}>
-                <NoteList />
-                <NoteEditor />
+        <TempStateProvider>
+          <div className={determineAppClass(darkTheme, sidebarVisible, activeFolder)}>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <SplitPane split="vertical" minSize={150} maxSize={500} defaultSize={240}>
+                <AppSidebar />
+                <SplitPane split="vertical" {...getNoteBarConf(activeFolder)}>
+                  <NoteList />
+                  <NoteEditor />
+                </SplitPane>
               </SplitPane>
-            </SplitPane>
-          </DragDropContext>
-          <KeyboardShortcuts />
-          <SettingsModal />
-        </div>
-      </TempStateProvider>
-    </HelmetProvider>
+            </DragDropContext>
+            <KeyboardShortcuts />
+            <SettingsModal />
+          </div>
+        </TempStateProvider>
+      </HelmetProvider>
+    </div>
   )
 }

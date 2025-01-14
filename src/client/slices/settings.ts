@@ -65,8 +65,8 @@ const settingsSlice = createSlice({
 export const {
   toggleSettingsModal,
   updateCodeMirrorOption,
-  toggleDarkTheme,
   togglePreviewMarkdown,
+  toggleDarkTheme,
   updateNotesSortStrategy,
   loadSettings,
   loadSettingsError,

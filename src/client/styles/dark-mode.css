@@ -1,0 +1,29 @@
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode a {
+  color: #bb86fc;
+}
+
+.dark-mode button {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+.dark-mode input,
+.dark-mode textarea {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+.dark-mode .header,
+.dark-mode .footer {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+/* Add other dark mode styles as needed */
